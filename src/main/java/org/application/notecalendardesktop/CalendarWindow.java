@@ -30,11 +30,11 @@ public class CalendarWindow {
         }
         for (int i = 1; i <= MONTH_SIZE; ++i) {
             for (int j = 0; j < WEEK_SIZE; ++j) {
-                Text text = new Text("Today is " +
+                Label dateLabel = new Label("Today is " +
                         today.getDayOfMonth() + "." +
                         today.getMonthValue() + "." +
                         today.getYear() + "!");
-                gp_Calendar.add(text, j, i);
+                gp_Calendar.add(dateLabel, j, i);
             }
         }
         stage.show();
