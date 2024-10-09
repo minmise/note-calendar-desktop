@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -16,6 +17,12 @@ public class CalendarWindow {
     private final String[] DAYS_OF_WEEK = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
     private final String[] MONTH_NAMES = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    private final String[] MONTH_NAMES_FULL = {"January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"};
+    private final Label leftPointerLabel = new Label("<");
+    private final Label rightPointerLabel = new Label(">");
+    private final Label curMonthLabel = new Label(MONTH_NAMES_FULL[today.getMonthValue() - 1] + ", " +
+            today.getYear());
 
     public void build() {
         Stage stage = new Stage();
@@ -23,8 +30,15 @@ public class CalendarWindow {
         BorderPane bp = new BorderPane();
         Scene scene = new Scene(bp, 1320, 940);
         stage.setScene(scene);
+        HBox hbTop = new HBox();
+        hbTop.getChildren().add(curMonthLabel);
+        HBox hbBottom = new HBox();
+        hbBottom.getChildren().add(leftPointerLabel);
+        hbBottom.getChildren().add(rightPointerLabel);
         GridPane gp_Calendar = new GridPane();
+        bp.setTop(hbTop);
         bp.setCenter(gp_Calendar);
+        bp.setBottom(hbBottom);
         for (int j = 0; j < WEEK_SIZE; ++j) {
             Label dayLabel = new Label(DAYS_OF_WEEK[j]);
             gp_Calendar.add(dayLabel, j, 0);
