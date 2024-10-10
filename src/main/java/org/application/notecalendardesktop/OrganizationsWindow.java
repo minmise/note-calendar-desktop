@@ -1,5 +1,6 @@
 package org.application.notecalendardesktop;
 
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -8,7 +9,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class OrganizationsWindow {
 
@@ -20,7 +25,11 @@ public class OrganizationsWindow {
     private final HBox yourOrgBox = new HBox();
     private final TextField searchField = new TextField();
 
-    public void build(BorderPane bp) {
+    private MainWindow mainWindow = null;
+
+    public void build(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
+        BorderPane bp = mainWindow.getBp();
         HBox hbTop = new HBox();
         HBox hbBottom = new HBox();
         hbTop.getStyleClass().add("hbtop");
@@ -49,6 +58,8 @@ public class OrganizationsWindow {
         yourOrgLabel.setStyle("-fx-padding: 10;-fx-background-color: #ffbebe;-fx-font-size: 20pt;");
         newOrgButton.setStyle("-fx-padding: 10;-fx-background-color: #ffbebe;-fx-font-size: 20pt;");
         newOrgButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            OrgCreationWindow orgCreationWindow = new OrgCreationWindow();
+            orgCreationWindow.build(mainWindow);
         });
         yourOrgBox.setStyle("-fx-padding: 10;-fx-spacing: 100;-fx-alignment: center;");
         yourOrgBox.getChildren().add(yourOrgLabel);

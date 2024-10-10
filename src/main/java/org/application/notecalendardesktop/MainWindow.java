@@ -2,6 +2,7 @@ package org.application.notecalendardesktop;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -9,10 +10,15 @@ import java.util.Objects;
 public class MainWindow {
 
     private final BorderPane bp = new BorderPane();
+    Stage stage = new Stage();
+
+    public Stage getStage() {
+        return stage;
+    }
 
     public void build() {
-        Stage stage = new Stage();
-        Scene scene = new Scene(bp, 1320, 940);
+        StackPane mainLayout = new StackPane(bp);
+        Scene scene = new Scene(mainLayout, 1320, 940);
         stage.setTitle("Note Calendar");
         scene.getStylesheets().
                 add(Objects.requireNonNull(getClass().getResource("application.css")).toExternalForm());
@@ -29,7 +35,7 @@ public class MainWindow {
 
     public void buildOrganizations() {
         OrganizationsWindow organizationsWindow = new OrganizationsWindow();
-        organizationsWindow.build(bp);
+        organizationsWindow.build(this);
     }
 
     private void buildSideBar() {
