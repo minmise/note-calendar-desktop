@@ -2,6 +2,7 @@ package org.application.notecalendardesktop;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -23,8 +24,8 @@ public class CalendarWindow {
             "July", "August", "September", "October", "November", "December"};
 
     private final BorderPane bp = new BorderPane();
-    private final Label leftPointerLabel = new Label("<");
-    private final Label rightPointerLabel = new Label(">");
+    private final Button leftPointerButton = new Button("<");
+    private final Button rightPointerButton = new Button(">");
     private final ArrayList<ArrayList<VBox>> vBoxList = new ArrayList<>();
 
     private LocalDate monthIterator = LocalDate.now().minusDays(LocalDate.now().getDayOfMonth() - 1);
@@ -51,15 +52,23 @@ public class CalendarWindow {
         return l;
     }
 
+    private Button createUpdateButton() {
+        Button l = new Button("Update Calendar");
+        l.setStyle("-fx-min-width: 100;-fx-min-height: 30;-fx-background-color: #ffbebe;-fx-font-size: 20pt;");
+        l.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> rebuildCalendarByMonth());
+        return l;
+    }
+
     private void rebuildCalendarByMonth() {
         gp_Calendar = new GridPane();
         HBox hbTop = new HBox();
         HBox hbBottom = new HBox();
 
         hbTop.getChildren().add(getMonthLabel());
+        hbTop.getChildren().add(createUpdateButton());
         hbTop.getStyleClass().add("hbtop");
-        hbBottom.getChildren().add(leftPointerLabel);
-        hbBottom.getChildren().add(rightPointerLabel);
+        hbBottom.getChildren().add(leftPointerButton);
+        hbBottom.getChildren().add(rightPointerButton);
         hbBottom.getStyleClass().add("hbbottom");
         bp.setTop(hbTop);
         bp.setCenter(gp_Calendar);
@@ -107,11 +116,11 @@ public class CalendarWindow {
     }
 
     public void build() {
-        leftPointerLabel.setStyle("-fx-min-width: 100;" +
+        leftPointerButton.setStyle("-fx-min-width: 100;" +
                 "-fx-min-height: 60;" +
                 "-fx-background-color: #ffbebe;" +
                 "-fx-font-size: 40pt;");
-        rightPointerLabel.setStyle("-fx-min-width: 100;" +
+        rightPointerButton.setStyle("-fx-min-width: 100;" +
                 "-fx-min-height: 60;" +
                 "-fx-background-color: #ffbebe;" +
                 "-fx-font-size: 40pt;");
@@ -121,12 +130,12 @@ public class CalendarWindow {
         scene.getStylesheets().
                 add(Objects.requireNonNull(getClass().getResource("application.css")).toExternalForm());
         stage.setScene(scene);
-        leftPointerLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+        leftPointerButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             bp.getChildren().clear();
             monthIterator = monthIterator.minusMonths(1);
             rebuildCalendarByMonth();
         });
-        rightPointerLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+        rightPointerButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             bp.getChildren().clear();
             monthIterator = monthIterator.plusMonths(1);
             rebuildCalendarByMonth();
