@@ -1,8 +1,6 @@
 .label{
     -fx-background-color: #ffffff;
     -fx-alignment: center;
-    -fx-min-width: 150;
-    -fx-min-height: 100;
     -fx-font-size: 10pt;
 }
 
