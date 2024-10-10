@@ -62,13 +62,11 @@ public class NoteCreationWindow {
         hBoxInner.getChildren().add(label);
         hBoxInner.getChildren().add(textFieldMinutes);
         hBoxInner.setStyle("-fx-padding: 20;" +
-                "-fx-spacing: 20;" +
-                "-fx-alignment: right;");
+                "-fx-spacing: 20;");
         hBox.getChildren().add(checkBox);
         hBox.getChildren().add(hBoxInner);
         hBox.setStyle("-fx-padding: 20;" +
-                "-fx-spacing: 40;" +
-                "-fx-alignment: right;");
+                "-fx-spacing: 40;");
         return hBox;
     }
 
@@ -96,8 +94,7 @@ public class NoteCreationWindow {
         hBox.getChildren().add(okButton);
         hBox.getChildren().add(cancelButton);
         hBox.setStyle("-fx-padding: 20;" +
-                "-fx-spacing: 40;" +
-                "-fx-alignment: right;");
+                "-fx-spacing: 40;");
         return hBox;
     }
 
