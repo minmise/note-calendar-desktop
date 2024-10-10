@@ -1,0 +1,26 @@
+.label{
+    -fx-background-color: #ffffff;
+    -fx-alignment: center;
+    -fx-min-width: 150;
+    -fx-min-height: 100;
+    -fx-font-size: 10pt;
+}
+
+.grid{
+    -fx-background-color: #f0f0f0;
+    -fx-hgap: 5;
+    -fx-vgap: 5;
+}
+
+.hbtop{
+    -fx-padding: 10;
+    -fx-alignment: center;
+    -fx-background-color: #808080;
+}
+
+.hbbottom{
+    -fx-padding: 10;
+    -fx-spacing: 100;
+    -fx-alignment: center;
+    -fx-background-color: #808080;
+}
