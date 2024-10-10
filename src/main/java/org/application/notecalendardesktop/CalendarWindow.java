@@ -7,7 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -64,14 +64,15 @@ public class CalendarWindow {
                 if (dayOfMonth == 1) {
                     ++counter;
                 }
+                dateLabel.setStyle("-fx-alignment: top-left;");
                 if (counter != 1) {
-                    dateLabel.setStyle("-fx-background-color: #c0c0c0;");
+                    dateLabel.setStyle("-fx-background-color: #c0c0c0;-fx-alignment: top-left;");
                 } else if (dayOfMonth == LocalDate.now().getDayOfMonth() &&
                         monthIterator.getMonthValue() == LocalDate.now().getMonthValue()) {
-                    dateLabel.setStyle("-fx-text-fill: red;-fx-font-size: 20pt;");
+                    dateLabel.setStyle("-fx-text-fill: red;-fx-font-size: 20pt;-fx-alignment: top-left;");
                 }
-                dateLabel.setTextAlignment(TextAlignment.RIGHT);
-                gp_Calendar.add(dateLabel, j, i);
+                VBox box = new VBox(dateLabel);
+                gp_Calendar.add(box, j, i);
                 curDay = curDay.plusDays(1);
             }
         }
@@ -92,7 +93,6 @@ public class CalendarWindow {
         scene.getStylesheets().
                 add(Objects.requireNonNull(getClass().getResource("application.css")).toExternalForm());
         stage.setScene(scene);
-        rebuildCalendarByMonth();
         leftPointerLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             bp.getChildren().clear();
             monthIterator = monthIterator.minusMonths(1);
@@ -103,6 +103,7 @@ public class CalendarWindow {
             monthIterator = monthIterator.plusMonths(1);
             rebuildCalendarByMonth();
         });
+        rebuildCalendarByMonth();
         stage.show();
     }
 
