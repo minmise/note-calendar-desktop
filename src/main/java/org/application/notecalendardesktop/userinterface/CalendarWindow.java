@@ -1,4 +1,4 @@
-package org.application.notecalendardesktop;
+package org.application.notecalendardesktop.userinterface;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;

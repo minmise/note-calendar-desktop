@@ -1,4 +1,4 @@
-package org.application.notecalendardesktop;
+package org.application.notecalendardesktop.userinterface;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

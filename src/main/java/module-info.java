@@ -4,5 +4,6 @@ module org.application.notecalendardesktop {
 
 
     opens org.application.notecalendardesktop to javafx.fxml;
-    exports org.application.notecalendardesktop;
+    exports org.application.notecalendardesktop.userinterface;
+    opens org.application.notecalendardesktop.userinterface to javafx.fxml;
 }
