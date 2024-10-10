@@ -56,7 +56,10 @@ public class CalendarWindow {
 
     private Button createUpdateButton() {
         Button l = new Button("Update Calendar");
-        l.setStyle("-fx-min-width: 100;-fx-min-height: 30;-fx-background-color: #ffbebe;-fx-font-size: 20pt;");
+        l.setStyle("-fx-min-width: 100;" +
+                "-fx-min-height: 30;" +
+                "-fx-background-color: #ffbebe;" +
+                "-fx-font-size: 20pt;");
         l.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> rebuildCalendarByMonth());
         return l;
     }
@@ -101,11 +104,15 @@ public class CalendarWindow {
                 box.setStyle("-fx-background-color: #ffffff;");
                 dateLabel.setStyle("-fx-alignment: top-left;");
                 if (counter != 1) {
-                    box.setStyle("-fx-background-color: #c0c0c0;-fx-alignment: top-left;");
-                    dateLabel.setStyle("-fx-background-color: #c0c0c0;-fx-alignment: top-left;");
+                    box.setStyle("-fx-background-color: #c0c0c0;" +
+                            "-fx-alignment: top-left;");
+                    dateLabel.setStyle("-fx-background-color: #c0c0c0;" +
+                            "-fx-alignment: top-left;");
                 } else if (dayOfMonth == LocalDate.now().getDayOfMonth() &&
                         monthIterator.getMonthValue() == LocalDate.now().getMonthValue()) {
-                    dateLabel.setStyle("-fx-text-fill: red;-fx-font-size: 20pt;-fx-alignment: top-left;");
+                    dateLabel.setStyle("-fx-text-fill: red;" +
+                            "-fx-font-size: 20pt;" +
+                            "-fx-alignment: top-left;");
                 }
                 box.getChildren().add(dateLabel);
                 box.getChildren().add(createPlusLabel(i - 1, j));

@@ -1,6 +1,5 @@
 package org.application.notecalendardesktop;
 
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -9,11 +8,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class OrganizationsWindow {
 
@@ -38,14 +33,18 @@ public class OrganizationsWindow {
         bp.setBottom(hbBottom);
         buildLeft();
         buildRight();
-        hBox.setStyle("-fx-spacing: 400;-fx-padding: 10;-fx-background-color: #f0f0f0;-fx-alignment: center;");
+        hBox.setStyle("-fx-spacing: 400;" +
+                "-fx-padding: 10;" +
+                "-fx-background-color: #f0f0f0;" +
+                "-fx-alignment: center;");
         hBox.getChildren().add(vBoxLeft);
         hBox.getChildren().add(vBoxRight);
         bp.setCenter(hBox);
     }
 
     private void buildLeft() {
-        searchField.setStyle("-fx-min-width: 600;-fx-font-size: 20pt;");
+        searchField.setStyle("-fx-min-width: 600;" +
+                "-fx-font-size: 20pt;");
         searchField.setPromptText("Enter id of organization you want to join");
         searchField.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -55,13 +54,19 @@ public class OrganizationsWindow {
     }
 
     private void buildRight() {
-        yourOrgLabel.setStyle("-fx-padding: 10;-fx-background-color: #ffbebe;-fx-font-size: 20pt;");
-        newOrgButton.setStyle("-fx-padding: 10;-fx-background-color: #ffbebe;-fx-font-size: 20pt;");
+        yourOrgLabel.setStyle("-fx-padding: 10;" +
+                "-fx-background-color: #ffbebe;" +
+                "-fx-font-size: 20pt;");
+        newOrgButton.setStyle("-fx-padding: 10;" +
+                "-fx-background-color: #ffbebe;" +
+                "-fx-font-size: 20pt;");
         newOrgButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             OrgCreationWindow orgCreationWindow = new OrgCreationWindow();
             orgCreationWindow.build(mainWindow);
         });
-        yourOrgBox.setStyle("-fx-padding: 10;-fx-spacing: 100;-fx-alignment: center;");
+        yourOrgBox.setStyle("-fx-padding: 10;" +
+                "-fx-spacing: 100;" +
+                "-fx-alignment: center;");
         yourOrgBox.getChildren().add(yourOrgLabel);
         yourOrgBox.getChildren().add(newOrgButton);
         vBoxRight.getChildren().add(yourOrgBox);

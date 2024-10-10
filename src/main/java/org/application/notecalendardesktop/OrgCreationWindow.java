@@ -24,14 +24,17 @@ public class OrgCreationWindow {
 
     private TextField getEnterName() {
         TextField textField = new TextField();
-        textField.setStyle("-fx-min-width: 500;-fx-font-size: 18pt;");
+        textField.setStyle("-fx-min-width: 500;" +
+                "-fx-font-size: 18pt;");
         textField.setPromptText("Enter organization name");
         return textField;
     }
 
     private TextField getEnterDescription() {
         TextField textField = new TextField();
-        textField.setStyle("-fx-min-width: 500;-fx-min-height: 200;-fx-font-size: 15pt;");
+        textField.setStyle("-fx-min-width: 500;" +
+                "-fx-min-height: 200;" +
+                "-fx-font-size: 15pt;");
         textField.setPromptText("Enter description");
         return textField;
     }
@@ -39,18 +42,22 @@ public class OrgCreationWindow {
     private HBox getVerification() {
         HBox hBox = new HBox();
         Button okButton = new Button("OK");
-        okButton.setStyle("-fx-font-size: 20pt;-fx-background-color: #90ee90;");
+        okButton.setStyle("-fx-font-size: 20pt;" +
+                "-fx-background-color: #90ee90;");
         okButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             stage.close();
         });
         Button cancelButton = new Button("Cancel");
-        cancelButton.setStyle("-fx-font-size: 20pt;-fx-background-color: #ffbebe;");
+        cancelButton.setStyle("-fx-font-size: 20pt;" +
+                "-fx-background-color: #ffbebe;");
         cancelButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             stage.close();
         });
         hBox.getChildren().add(okButton);
         hBox.getChildren().add(cancelButton);
-        hBox.setStyle("-fx-padding: 20;-fx-spacing: 40;-fx-alignment: right;");
+        hBox.setStyle("-fx-padding: 20;" +
+                "-fx-spacing: 40;" +
+                "-fx-alignment: right;");
         return hBox;
     }
 
@@ -62,7 +69,9 @@ public class OrgCreationWindow {
         Scene scene = new Scene(layout, 600, 600);
         stage.setScene(scene);
         VBox vBox = new VBox();
-        vBox.setStyle("-fx-padding: 20;-fx-border-color: black;-fx-spacing: 50;");
+        vBox.setStyle("-fx-padding: 20;" +
+                "-fx-border-color: black;" +
+                "-fx-spacing: 50;");
         vBox.getChildren().add(getWindowName());
         vBox.getChildren().add(getEnterName());
         vBox.getChildren().add(getEnterDescription());
