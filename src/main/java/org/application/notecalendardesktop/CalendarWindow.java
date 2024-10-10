@@ -2,6 +2,7 @@ package org.application.notecalendardesktop;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -20,12 +21,13 @@ public class CalendarWindow {
             "July", "August", "September", "October", "November", "December"};
 
     private final BorderPane bp = new BorderPane();
-    private final LocalDate MonthIterator = LocalDate.now().minusDays(LocalDate.now().getDayOfMonth() - 1);
     private final Label leftPointerLabel = new Label("<");
     private final Label rightPointerLabel = new Label(">");
 
+    private LocalDate monthIterator = LocalDate.now().minusDays(LocalDate.now().getDayOfMonth() - 1);
+
     private Label getMonthLabel() {
-        return new Label(MONTH_NAMES_FULL[MonthIterator.getMonthValue() - 1] + ", " + MonthIterator.getYear());
+        return new Label(MONTH_NAMES_FULL[monthIterator.getMonthValue() - 1] + ", " + monthIterator.getYear());
     }
 
     private void rebuildCalendarByMonth() {
@@ -45,7 +47,7 @@ public class CalendarWindow {
             gp_Calendar.add(dayLabel, j, 0);
         }
 
-        LocalDate curDay = MonthIterator.minusDays(MonthIterator.getDayOfWeek().getValue() - 1);
+        LocalDate curDay = monthIterator.minusDays(monthIterator.getDayOfWeek().getValue() - 1);
         for (int i = 1; i <= MONTH_SIZE; ++i) {
             for (int j = 0; j < WEEK_SIZE; ++j) {
                 int dayOfMonth = curDay.getDayOfMonth();
@@ -66,6 +68,16 @@ public class CalendarWindow {
         stage.setTitle("Note Calendar");
         stage.setScene(scene);
         rebuildCalendarByMonth();
+        leftPointerLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            bp.getChildren().clear();
+            monthIterator = monthIterator.minusMonths(1);
+            rebuildCalendarByMonth();
+        });
+        rightPointerLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            bp.getChildren().clear();
+            monthIterator = monthIterator.plusMonths(1);
+            rebuildCalendarByMonth();
+        });
         stage.show();
     }
 
