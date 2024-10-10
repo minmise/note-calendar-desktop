@@ -17,14 +17,19 @@ public class MainWindow {
         scene.getStylesheets().
                 add(Objects.requireNonNull(getClass().getResource("application.css")).toExternalForm());
         stage.setScene(scene);
-        buildCalendar();
         buildSideBar();
+        buildCalendar();
         stage.show();
     }
 
     public void buildCalendar() {
         CalendarWindow calendarWindow = new CalendarWindow();
         calendarWindow.build(bp);
+    }
+
+    public void buildOrganizations() {
+        OrganizationsWindow organizationsWindow = new OrganizationsWindow();
+        organizationsWindow.build(bp);
     }
 
     private void buildSideBar() {

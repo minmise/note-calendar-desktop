@@ -1,6 +1,7 @@
 package org.application.notecalendardesktop;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -123,12 +124,16 @@ public class CalendarWindow {
                 "-fx-background-color: #ffbebe;" +
                 "-fx-font-size: 40pt;");
         leftPointerButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            Node node = bp.getLeft();
             bp.getChildren().clear();
+            bp.setLeft(node);
             monthIterator = monthIterator.minusMonths(1);
             rebuildCalendarByMonth();
         });
         rightPointerButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            Node node = bp.getLeft();
             bp.getChildren().clear();
+            bp.setLeft(node);
             monthIterator = monthIterator.plusMonths(1);
             rebuildCalendarByMonth();
         });
