@@ -11,7 +11,7 @@
 }
 
 .hbtop{
-    -fx-min-height: 100;
+    -fx-min-height: 120;
     -fx-padding: 10;
     -fx-spacing: 100;
     -fx-alignment: center;

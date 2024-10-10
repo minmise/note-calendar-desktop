@@ -31,7 +31,11 @@ public class CalendarWindow {
 
     private Label getMonthLabel() {
         Label l = new Label(MONTH_NAMES_FULL[monthIterator.getMonthValue() - 1] + ", " + monthIterator.getYear());
-        l.setStyle("-fx-min-width: 150;-fx-min-height: 30;-fx-background-color: #ffbebe;-fx-font-size: 40pt;");
+        l.setStyle("-fx-padding: 10;" +
+                "-fx-min-width: 150;" +
+                "-fx-min-height: 30;" +
+                "-fx-background-color: #ffbebe;" +
+                "-fx-font-size: 40pt;");
         return l;
     }
 
