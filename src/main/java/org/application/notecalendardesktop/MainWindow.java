@@ -30,7 +30,7 @@ public class MainWindow {
 
     public void buildCalendar() {
         CalendarWindow calendarWindow = new CalendarWindow();
-        calendarWindow.build(bp);
+        calendarWindow.build(this);
     }
 
     public void buildOrganizations() {

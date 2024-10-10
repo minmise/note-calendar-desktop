@@ -28,6 +28,7 @@ public class CalendarWindow {
     private LocalDate monthIterator = LocalDate.now().minusDays(LocalDate.now().getDayOfMonth() - 1);
     private GridPane gp = null;
     private BorderPane bp = null;
+    private MainWindow mainWindow = null;
 
     private Label getMonthLabel() {
         Label l = new Label(MONTH_NAMES_FULL[monthIterator.getMonthValue() - 1] + ", " + monthIterator.getYear());
@@ -39,17 +40,22 @@ public class CalendarWindow {
         return l;
     }
 
+    public void printDot(int x, int y) {
+        Label l_new = new Label(".");
+        l_new.setStyle(vBoxList.get(x).get(y).getStyle());
+        vBoxList.get(x).get(y).getChildren().removeLast();
+        vBoxList.get(x).get(y).getChildren().add(l_new);
+        vBoxList.get(x).get(y).getChildren().add(createPlusLabel(x, y));
+        gp.getChildren().remove(vBoxList.get(x).get(y));
+        gp.add(vBoxList.get(x).get(y), y, x + 1);
+    }
+
     private Label createPlusLabel(int x, int y) {
         Label l = new Label("+");
         l.setStyle(vBoxList.get(x).get(y).getStyle());
         l.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            Label l_new = new Label(".");
-            l_new.setStyle(vBoxList.get(x).get(y).getStyle());
-            vBoxList.get(x).get(y).getChildren().removeLast();
-            vBoxList.get(x).get(y).getChildren().add(l_new);
-            vBoxList.get(x).get(y).getChildren().add(createPlusLabel(x, y));
-            gp.getChildren().remove(vBoxList.get(x).get(y));
-            gp.add(vBoxList.get(x).get(y), y, x + 1);
+            NoteCreationWindow noteCreationWindow = new NoteCreationWindow();
+            noteCreationWindow.build(mainWindow, this, x, y);
         });
         return l;
     }
@@ -124,8 +130,9 @@ public class CalendarWindow {
         }
     }
 
-    public void build(BorderPane bp) {
-        this.bp = bp;
+    public void build(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
+        bp = mainWindow.getBp();
         leftPointerButton.setStyle("-fx-min-width: 100;" +
                 "-fx-min-height: 60;" +
                 "-fx-background-color: #ffbebe;" +
