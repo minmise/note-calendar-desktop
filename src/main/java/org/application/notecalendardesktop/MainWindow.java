@@ -18,12 +18,22 @@ public class MainWindow {
                 add(Objects.requireNonNull(getClass().getResource("application.css")).toExternalForm());
         stage.setScene(scene);
         buildCalendar();
+        buildSideBar();
         stage.show();
     }
 
-    private void buildCalendar() {
+    public void buildCalendar() {
         CalendarWindow calendarWindow = new CalendarWindow();
         calendarWindow.build(bp);
+    }
+
+    private void buildSideBar() {
+        SideBar sideBar = new SideBar();
+        sideBar.build(this);
+    }
+
+    public BorderPane getBp() {
+        return bp;
     }
 
 }
