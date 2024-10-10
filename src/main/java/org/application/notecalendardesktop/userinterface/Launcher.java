@@ -10,9 +10,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.application.notecalendardesktop.client.User;
+import org.application.notecalendardesktop.client.UserHandler;
 
 public class Launcher extends Application {
+
     private Stage stageSaver;
+    private final TextField loginField = new TextField();
+    private final PasswordField passwordField = new PasswordField();
 
     @Override
     public void start(Stage stage) {
@@ -22,11 +27,9 @@ public class Launcher extends Application {
         stage.setTitle("Note Calendar Authorization");
         stage.setScene(scene);
         VBox vBox = new VBox();
-        TextField loginField = new TextField();
         loginField.setStyle("-fx-font-size: 15;");
         loginField.setPromptText("Login");
         loginField.setMaxWidth(500);
-        PasswordField passwordField = new PasswordField();
         passwordField.setStyle("-fx-font-size: 15;");
         passwordField.setPromptText("Password");
         passwordField.setMaxWidth(500);
@@ -48,15 +51,20 @@ public class Launcher extends Application {
                 "-fx-spacing: 20;");
         vBox.setAlignment(Pos.CENTER);
         root.setCenter(vBox);
-        signInButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::buildMainWindow);
-        signUpButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::buildMainWindow);
+        signInButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::openApplication);
+        signUpButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::openApplication);
         stage.show();
     }
 
-    private void buildMainWindow(MouseEvent mouseEvent) {
+    private void openApplication(MouseEvent mouseEvent) {
+        UserHandler.setCurrentUser(new User(loginField.getText(), 0));
+        buildMainWindow();
+        closeStage();
+    }
+
+    private void buildMainWindow() {
         MainWindow window = new MainWindow();
         window.build();
-        closeStage();
     }
 
     private void closeStage() {
