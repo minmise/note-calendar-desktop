@@ -10,4 +10,12 @@ public class User {
         this.id = id;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public int getId() {
+        return id;
+    }
+
 }
