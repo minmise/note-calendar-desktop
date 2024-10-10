@@ -1,7 +1,6 @@
 package org.application.notecalendardesktop;
 
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -9,11 +8,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class CalendarWindow {
 
@@ -23,13 +20,13 @@ public class CalendarWindow {
     private static final String[] MONTH_NAMES_FULL = {"January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"};
 
-    private final BorderPane bp = new BorderPane();
     private final Button leftPointerButton = new Button("<");
     private final Button rightPointerButton = new Button(">");
     private final ArrayList<ArrayList<VBox>> vBoxList = new ArrayList<>();
 
     private LocalDate monthIterator = LocalDate.now().minusDays(LocalDate.now().getDayOfMonth() - 1);
-    GridPane gp_Calendar = null;
+    private GridPane gp = null;
+    private BorderPane bp = null;
 
     private Label getMonthLabel() {
         Label l = new Label(MONTH_NAMES_FULL[monthIterator.getMonthValue() - 1] + ", " + monthIterator.getYear());
@@ -46,8 +43,8 @@ public class CalendarWindow {
             vBoxList.get(x).get(y).getChildren().removeLast();
             vBoxList.get(x).get(y).getChildren().add(l_new);
             vBoxList.get(x).get(y).getChildren().add(createPlusLabel(x, y));
-            gp_Calendar.getChildren().remove(vBoxList.get(x).get(y));
-            gp_Calendar.add(vBoxList.get(x).get(y), y, x + 1);
+            gp.getChildren().remove(vBoxList.get(x).get(y));
+            gp.add(vBoxList.get(x).get(y), y, x + 1);
         });
         return l;
     }
@@ -60,7 +57,7 @@ public class CalendarWindow {
     }
 
     private void rebuildCalendarByMonth() {
-        gp_Calendar = new GridPane();
+        gp = new GridPane();
         HBox hbTop = new HBox();
         HBox hbBottom = new HBox();
 
@@ -71,10 +68,10 @@ public class CalendarWindow {
         hbBottom.getChildren().add(rightPointerButton);
         hbBottom.getStyleClass().add("hbbottom");
         bp.setTop(hbTop);
-        bp.setCenter(gp_Calendar);
+        bp.setCenter(gp);
         bp.setBottom(hbBottom);
-        gp_Calendar.setAlignment(Pos.CENTER);
-        gp_Calendar.getStyleClass().add("grid");
+        gp.setAlignment(Pos.CENTER);
+        gp.getStyleClass().add("grid");
 
         for (int j = 0; j < WEEK_SIZE; ++j) {
             Label dayLabel = new Label(DAYS_OF_WEEK[j]);
@@ -82,7 +79,7 @@ public class CalendarWindow {
                     "-fx-min-height: 30;" +
                     "-fx-font-size: 20pt;" +
                     "-fx-min-width: 150;");
-            gp_Calendar.add(dayLabel, j, 0);
+            gp.add(dayLabel, j, 0);
         }
 
         LocalDate curDay = monthIterator.minusDays(monthIterator.getDayOfWeek().getValue() - 1);
@@ -109,13 +106,14 @@ public class CalendarWindow {
                 box.getChildren().add(createPlusLabel(i - 1, j));
                 box.setMinWidth(150);
                 box.setMinHeight(100);
-                gp_Calendar.add(box, j, i);
+                gp.add(box, j, i);
                 curDay = curDay.plusDays(1);
             }
         }
     }
 
-    public void build() {
+    public void build(BorderPane bp) {
+        this.bp = bp;
         leftPointerButton.setStyle("-fx-min-width: 100;" +
                 "-fx-min-height: 60;" +
                 "-fx-background-color: #ffbebe;" +
@@ -124,12 +122,6 @@ public class CalendarWindow {
                 "-fx-min-height: 60;" +
                 "-fx-background-color: #ffbebe;" +
                 "-fx-font-size: 40pt;");
-        Stage stage = new Stage();
-        Scene scene = new Scene(bp, 1320, 940);
-        stage.setTitle("Note Calendar");
-        scene.getStylesheets().
-                add(Objects.requireNonNull(getClass().getResource("application.css")).toExternalForm());
-        stage.setScene(scene);
         leftPointerButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             bp.getChildren().clear();
             monthIterator = monthIterator.minusMonths(1);
@@ -147,7 +139,6 @@ public class CalendarWindow {
             }
         }
         rebuildCalendarByMonth();
-        stage.show();
     }
 
 }

@@ -7,12 +7,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class MainApplication extends Application {
+public class Launcher extends Application {
     private Stage stageSaver;
 
     @Override
     public void start(Stage stage) {
-        //FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("sign-in-view.fxml"));
         stageSaver = stage;
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, 1320, 940);
@@ -20,13 +19,13 @@ public class MainApplication extends Application {
         stage.setScene(scene);
         Button startButton = new Button("sign in");
         root.setCenter(startButton);
-        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::buildCalendar);
+        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::buildMainWindow);
         stage.show();
     }
 
-    private void buildCalendar(MouseEvent mouseEvent) {
-        CalendarWindow calendarWindow = new CalendarWindow();
-        calendarWindow.build();
+    private void buildMainWindow(MouseEvent mouseEvent) {
+        MainWindow window = new MainWindow();
+        window.build();
         closeStage();
     }
 
