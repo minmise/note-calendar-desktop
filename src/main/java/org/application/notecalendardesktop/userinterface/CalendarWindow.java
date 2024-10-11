@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class CalendarWindow {
 
+    private static final int CELL_TEXT_SIZE = 20;
     private static final int WEEK_SIZE = 7;
     private static final int MONTH_SIZE = 6;
     private static final String[] DAYS_OF_WEEK = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
@@ -51,8 +52,15 @@ public class CalendarWindow {
         gp.add(vBoxList.get(x).get(y), y, x + 1);
     }*/
 
+    private String useFormat(String s) {
+        if (s.length() > CELL_TEXT_SIZE) {
+            return s.substring(0, CELL_TEXT_SIZE - 3) + "...";
+        }
+        return s;
+    }
+
     public void printNoteInfo(Note note, int x, int y) {
-        Label l_new = new Label(".");
+        Label l_new = new Label(useFormat(note.getName()));
         l_new.setStyle(vBoxList.get(x).get(y).getStyle());
         vBoxList.get(x).get(y).getChildren().removeLast();
         vBoxList.get(x).get(y).getChildren().add(l_new);

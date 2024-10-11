@@ -17,58 +17,59 @@ import org.application.notecalendardesktop.client.Note;
 public class NoteCreationWindow {
 
     private final Stage stage = new Stage();
+    private final Label windowName = new Label("Create note");
+    private final TextField nameField = new TextField();
+    private final TextField descField = new TextField();
+    private final HBox timeData = new HBox();
+    private final CheckBox timeCheckBox = new CheckBox("Time");
+    private final TextField textFieldHours = new TextField();
+    private final TextField textFieldMinutes = new TextField();
+    private final HBox hBoxInner = new HBox();
+    private final HBox verifData = new HBox();
 
     private CalendarWindow calendarWindow = null;
     private int x = -1;
     private int y = -1;
 
     private Label getWindowName() {
-        Label windowName = new Label("Create note");
         windowName.setStyle("-fx-font-size:18pt;");
         return windowName;
     }
 
     private TextField getEnterName() {
-        TextField textField = new TextField();
-        textField.setStyle("-fx-min-width: 500;" +
+        nameField.setStyle("-fx-min-width: 500;" +
                 "-fx-font-size: 18pt;");
-        textField.setPromptText("Enter note name");
-        return textField;
+        nameField.setPromptText("Enter note name");
+        return nameField;
     }
 
     private TextField getEnterDescription() {
-        TextField textField = new TextField();
-        textField.setStyle("-fx-min-width: 500;" +
+        descField.setStyle("-fx-min-width: 500;" +
                 "-fx-min-height: 200;" +
                 "-fx-font-size: 15pt;");
-        textField.setPromptText("Enter description");
-        return textField;
+        descField.setPromptText("Enter description");
+        return descField;
     }
 
     private HBox getTimeData() {
-        HBox hBox = new HBox();
-        CheckBox checkBox = new CheckBox("Time");
-        checkBox.setStyle("-fx-font-size: 15pt;");
-        TextField textFieldHours = new TextField();
+        timeCheckBox.setStyle("-fx-font-size: 15pt;");
         textFieldHours.setStyle("-fx-min-width: 50;" +
                 "-fx-font-size: 15pt;");
-        TextField textFieldMinutes = new TextField();
         textFieldMinutes.setStyle("-fx-min-width: 50;" +
                 "-fx-font-size: 15pt;");
         Label label = new Label(":");
         label.setStyle("-fx-min-width: 50;" +
                 "-fx-font-size: 15pt;");
-        HBox hBoxInner = new HBox();
         hBoxInner.getChildren().add(textFieldHours);
         hBoxInner.getChildren().add(label);
         hBoxInner.getChildren().add(textFieldMinutes);
         hBoxInner.setStyle("-fx-padding: 20;" +
                 "-fx-spacing: 20;");
-        hBox.getChildren().add(checkBox);
-        hBox.getChildren().add(hBoxInner);
-        hBox.setStyle("-fx-padding: 20;" +
+        timeData.getChildren().add(timeCheckBox);
+        timeData.getChildren().add(hBoxInner);
+        timeData.setStyle("-fx-padding: 20;" +
                 "-fx-spacing: 40;");
-        return hBox;
+        return timeData;
     }
 
     /*private HBox getRegularData() {
@@ -78,14 +79,19 @@ public class NoteCreationWindow {
     }*/
 
     private HBox getVerification() {
-        HBox hBox = new HBox();
         Button okButton = new Button("OK");
         okButton.setStyle("-fx-font-size: 20pt;" +
                 "-fx-background-color: #90ee90;");
         okButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             stage.close();
             Note note = new Note();
-
+            note.setName(nameField.getText());
+            note.setDescription(descField.getText());
+            note.setTimeIncluded(timeCheckBox.isSelected());
+            if (timeCheckBox.isSelected()) {
+                note.setHours(Integer.parseInt(textFieldHours.getText()));
+                note.setMinutes(Integer.parseInt(textFieldMinutes.getText()));
+            }
             calendarWindow.printNoteInfo(note, x, y);
         });
         Button cancelButton = new Button("Cancel");
@@ -94,11 +100,11 @@ public class NoteCreationWindow {
         cancelButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             stage.close();
         });
-        hBox.getChildren().add(okButton);
-        hBox.getChildren().add(cancelButton);
-        hBox.setStyle("-fx-padding: 20;" +
+        verifData.getChildren().add(okButton);
+        verifData.getChildren().add(cancelButton);
+        verifData.setStyle("-fx-padding: 20;" +
                 "-fx-spacing: 40;");
-        return hBox;
+        return verifData;
     }
 
     public void build(MainWindow mainWindow, CalendarWindow calendarWindow, int x, int y) {
