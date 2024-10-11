@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.application.notecalendardesktop.client.Note;
+import org.application.notecalendardesktop.client.NoteHandler;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,8 +27,11 @@ public class CalendarWindow {
     private final Button leftPointerButton = new Button("<");
     private final Button rightPointerButton = new Button(">");
     private final ArrayList<ArrayList<VBox>> vBoxList = new ArrayList<>();
+    private final ArrayList<ArrayList<ArrayList<Note>>> noteList = new ArrayList<>();
 
     private LocalDate monthIterator = LocalDate.now().minusDays(LocalDate.now().getDayOfMonth() - 1);
+    private LocalDate startDay = null;
+    private LocalDate endDay = null;
     private GridPane gp = null;
     private BorderPane bp = null;
     private MainWindow mainWindow = null;
@@ -52,6 +56,21 @@ public class CalendarWindow {
         gp.add(vBoxList.get(x).get(y), y, x + 1);
     }*/
 
+    public void updateNotesAdd(Note note, int x, int y) {
+        note.setLocalDate(startDay.plusDays((long) x * WEEK_SIZE + y));
+        NoteHandler.getNoteList().add(note);
+        rebuildCalendarByMonth();
+    }
+
+    public void updateNotesEdit(Note note, int x, int y) {
+        rebuildCalendarByMonth();
+    }
+
+    public void updateNotesDelete(Note note, int x, int y) {
+        NoteHandler.getNoteList().remove(note);
+        rebuildCalendarByMonth();
+    }
+
     private String useFormat(String s) {
         if (s.length() > CELL_TEXT_SIZE) {
             return s.substring(0, CELL_TEXT_SIZE - 3) + "...";
@@ -59,14 +78,15 @@ public class CalendarWindow {
         return s;
     }
 
-    public void printNoteInfo(Note note, int x, int y) {
-        Label l_new = new Label(useFormat(note.getName()));
-        l_new.setStyle(vBoxList.get(x).get(y).getStyle());
-        vBoxList.get(x).get(y).getChildren().removeLast();
-        vBoxList.get(x).get(y).getChildren().add(l_new);
-        vBoxList.get(x).get(y).getChildren().add(createPlusLabel(x, y));
-        gp.getChildren().remove(vBoxList.get(x).get(y));
-        gp.add(vBoxList.get(x).get(y), y, x + 1);
+    private Label createNoteLabel(int x, int y, int pos) {
+        Note note = noteList.get(x).get(y).get(pos);
+        Label label = new Label(useFormat(note.getName()));
+        label.setStyle(vBoxList.get(x).get(y).getStyle());
+        label.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            NoteEditionWindow noteEditionWindow = new NoteEditionWindow();
+            noteEditionWindow.build(mainWindow, this, note, x, y);
+        });
+        return label;
     }
 
     private Label createPlusLabel(int x, int y) {
@@ -115,7 +135,29 @@ public class CalendarWindow {
             gp.add(dayLabel, j, 0);
         }
 
-        LocalDate curDay = monthIterator.minusDays(monthIterator.getDayOfWeek().getValue() - 1);
+        startDay = monthIterator.minusDays(monthIterator.getDayOfWeek().getValue() - 1);
+        LocalDate curDay = startDay;
+        endDay = curDay.plusDays(WEEK_SIZE * MONTH_SIZE);
+
+        for (int i = 0; i < MONTH_SIZE; ++i) {
+            for (int j = 0; j < WEEK_SIZE; ++j) {
+                noteList.get(i).get(j).clear();
+            }
+        }
+
+        for (Note note : NoteHandler.getNoteList()) {
+            LocalDate curDate = note.getLocalDate();
+            if (curDate.isAfter(startDay.minusDays(1)) && curDate.isBefore(endDay)) {
+                int dif = 0;
+                while (curDate.isAfter(startDay.plusDays(dif))) {
+                    dif++;
+                }
+                int x = dif / WEEK_SIZE;
+                int y = dif % WEEK_SIZE;
+                noteList.get(x).get(y).add(note);
+            }
+        }
+
         int counter = 0;
         for (int i = 1; i <= MONTH_SIZE; ++i) {
             for (int j = 0; j < WEEK_SIZE; ++j) {
@@ -140,6 +182,9 @@ public class CalendarWindow {
                             "-fx-alignment: top-left;");
                 }
                 box.getChildren().add(dateLabel);
+                for (int pos = 0; pos < noteList.get(i - 1).get(j).size(); pos++) {
+                    box.getChildren().add(createNoteLabel(i - 1, j, pos));
+                }
                 box.getChildren().add(createPlusLabel(i - 1, j));
                 box.setMinWidth(150);
                 box.setMinHeight(100);
@@ -176,8 +221,10 @@ public class CalendarWindow {
         });
         for (int i = 0; i < MONTH_SIZE; ++i) {
             vBoxList.add(new ArrayList<>());
+            noteList.add(new ArrayList<>());
             for (int j = 0; j < WEEK_SIZE; ++j) {
                 vBoxList.get(i).add(new VBox());
+                noteList.get(i).add(new ArrayList<>());
             }
         }
         rebuildCalendarByMonth();

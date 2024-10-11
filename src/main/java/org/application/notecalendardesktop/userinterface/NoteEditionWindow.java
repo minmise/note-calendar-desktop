@@ -97,13 +97,14 @@ public class NoteEditionWindow {
                 note.setHours(Integer.parseInt(textFieldHours.getText()));
                 note.setMinutes(Integer.parseInt(textFieldMinutes.getText()));
             }
-            calendarWindow.printNoteInfo(note, x, y);
+            calendarWindow.updateNotesEdit(note, x, y);
         });
         Button deleteButton = new Button("Delete");
         deleteButton.setStyle("-fx-font-size: 20pt;" +
                 "-fx-background-color: #ffbebe;");
         deleteButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-
+            stage.close();
+            calendarWindow.updateNotesDelete(note, x, y);
         });
         Button cancelButton = new Button("Cancel");
         cancelButton.setStyle("-fx-font-size: 20pt;" +

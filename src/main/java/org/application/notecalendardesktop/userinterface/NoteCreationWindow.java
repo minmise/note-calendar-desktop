@@ -92,7 +92,7 @@ public class NoteCreationWindow {
                 note.setHours(Integer.parseInt(textFieldHours.getText()));
                 note.setMinutes(Integer.parseInt(textFieldMinutes.getText()));
             }
-            calendarWindow.printNoteInfo(note, x, y);
+            calendarWindow.updateNotesAdd(note, x, y);
         });
         Button cancelButton = new Button("Cancel");
         cancelButton.setStyle("-fx-font-size: 20pt;" +
