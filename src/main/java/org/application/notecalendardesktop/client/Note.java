@@ -4,8 +4,7 @@ import java.time.LocalDate;
 
 public class Note {
 
-    private final LocalDate localDate = null;
-
+    private LocalDate localDate = null;
     private String name = null;
     private String description = null;
     private boolean isTimeIncluded = false;
