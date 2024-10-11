@@ -40,7 +40,17 @@ public class CalendarWindow {
         return l;
     }
 
-    public void printDot(int x, int y) {
+    /*public void printDot(int x, int y) {
+        Label l_new = new Label(".");
+        l_new.setStyle(vBoxList.get(x).get(y).getStyle());
+        vBoxList.get(x).get(y).getChildren().removeLast();
+        vBoxList.get(x).get(y).getChildren().add(l_new);
+        vBoxList.get(x).get(y).getChildren().add(createPlusLabel(x, y));
+        gp.getChildren().remove(vBoxList.get(x).get(y));
+        gp.add(vBoxList.get(x).get(y), y, x + 1);
+    }*/
+
+    public void printNoteInfo(int x, int y) {
         Label l_new = new Label(".");
         l_new.setStyle(vBoxList.get(x).get(y).getStyle());
         vBoxList.get(x).get(y).getChildren().removeLast();

@@ -83,7 +83,7 @@ public class NoteCreationWindow {
                 "-fx-background-color: #90ee90;");
         okButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             stage.close();
-            calendarWindow.printDot(x, y);
+            calendarWindow.printNoteInfo(x, y);
         });
         Button cancelButton = new Button("Cancel");
         cancelButton.setStyle("-fx-font-size: 20pt;" +
