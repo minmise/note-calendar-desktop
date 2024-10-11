@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.application.notecalendardesktop.client.Note;
 
 public class NoteCreationWindow {
 
@@ -83,7 +84,9 @@ public class NoteCreationWindow {
                 "-fx-background-color: #90ee90;");
         okButton.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             stage.close();
-            calendarWindow.printNoteInfo(x, y);
+            Note note = new Note();
+
+            calendarWindow.printNoteInfo(note, x, y);
         });
         Button cancelButton = new Button("Cancel");
         cancelButton.setStyle("-fx-font-size: 20pt;" +

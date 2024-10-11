@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.application.notecalendardesktop.client.Note;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class CalendarWindow {
         gp.add(vBoxList.get(x).get(y), y, x + 1);
     }*/
 
-    public void printNoteInfo(int x, int y) {
+    public void printNoteInfo(Note note, int x, int y) {
         Label l_new = new Label(".");
         l_new.setStyle(vBoxList.get(x).get(y).getStyle());
         vBoxList.get(x).get(y).getChildren().removeLast();
