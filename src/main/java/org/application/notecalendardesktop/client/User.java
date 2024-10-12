@@ -3,9 +3,9 @@ package org.application.notecalendardesktop.client;
 public class User {
 
     private final String login;
-    private final int id;
+    private final Long id;
 
-    public User(String login, int id) {
+    public User(String login, Long id) {
         this.login = login;
         this.id = id;
     }
@@ -14,7 +14,7 @@ public class User {
         return login;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

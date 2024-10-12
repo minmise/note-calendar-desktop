@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -12,12 +13,17 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.application.notecalendardesktop.client.User;
 import org.application.notecalendardesktop.client.UserHandler;
+import org.application.notecalendardesktop.webinteraction.BackendService;
+import org.application.notecalendardesktop.webinteraction.model.response.SignInResponse;
+import org.application.notecalendardesktop.webinteraction.model.response.SignUpResponse;
+import org.springframework.web.client.HttpClientErrorException;
 
 public class Launcher extends Application {
 
     private Stage stageSaver;
     private final TextField loginField = new TextField();
     private final PasswordField passwordField = new PasswordField();
+    private final VBox vBox = new VBox();
 
     @Override
     public void start(Stage stage) {
@@ -26,7 +32,6 @@ public class Launcher extends Application {
         Scene scene = new Scene(root, 1320, 940);
         stage.setTitle("Note Calendar Authorization");
         stage.setScene(scene);
-        VBox vBox = new VBox();
         loginField.setStyle("-fx-font-size: 15;");
         loginField.setPromptText("Login");
         loginField.setMaxWidth(500);
@@ -51,13 +56,40 @@ public class Launcher extends Application {
                 "-fx-spacing: 20;");
         vBox.setAlignment(Pos.CENTER);
         root.setCenter(vBox);
-        signInButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::openApplication);
-        signUpButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::openApplication);
+        signInButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::signInTry);
+        signUpButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::signUpTry);
         stage.show();
     }
 
-    private void openApplication(MouseEvent mouseEvent) {
-        UserHandler.setCurrentUser(new User(loginField.getText(), 0));
+    private void signUpTry(MouseEvent mouseEvent) {
+        try {
+            SignUpResponse response = BackendService.getSignUpResponse(loginField.getText(), passwordField.getText());
+            if (response.getId() == -1) {
+                vBox.getChildren().add(new Label("Error: user already exists"));
+            } else {
+                UserHandler.setCurrentUser(new User(loginField.getText(), response.getId()));
+                openApplication();
+            }
+        } catch (HttpClientErrorException exception) {
+            vBox.getChildren().add(new Label("Error while sign up"));
+        }
+    }
+
+    private void signInTry(MouseEvent mouseEvent) {
+        try {
+            SignInResponse response = BackendService.getSignInResponse(loginField.getText(), passwordField.getText());
+            if (response.getId() == -1) {
+                vBox.getChildren().add(new Label("Error: wrong login or password"));
+            } else {
+                UserHandler.setCurrentUser(new User(loginField.getText(), response.getId()));
+                openApplication();
+            }
+        } catch (HttpClientErrorException exception) {
+            vBox.getChildren().add(new Label("Error while sign in"));
+        }
+    }
+
+    private void openApplication() {
         buildMainWindow();
         closeStage();
     }
