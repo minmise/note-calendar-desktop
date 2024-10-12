@@ -13,7 +13,7 @@ import java.net.http.HttpResponse;
 
 public class RestClient {
 
-    private static final String BASE_URL = "http://localhost:8080/calendar_server";
+    private static final String BASE_URL = "http://localhost:8080";
     private static final String H_NAME = "Content-Type";
     private static final String H_VALUE = "application/json";
     private static final HttpClient client = HttpClient.newBuilder().build();
@@ -51,11 +51,7 @@ public class RestClient {
         signInRequest.setPassword(password);
         try {
             String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(signInRequest);
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL))
-                    .header(H_NAME, H_VALUE)
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonString))
-                    .build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(BASE_URL)).header(H_NAME, H_VALUE).GET().build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return response;
         } catch (JsonProcessingException e) {
