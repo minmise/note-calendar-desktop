@@ -30,7 +30,7 @@ public class RestClient {
         try {
             String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(signUpRequest);
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL))
+                    .uri(URI.create(BASE_URL + "/signUp"))
                     .header(H_NAME, H_VALUE)
                     .POST(HttpRequest.BodyPublishers.ofString(jsonString))
                     .build();
@@ -51,7 +51,7 @@ public class RestClient {
         signInRequest.setPassword(password);
         try {
             String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(signInRequest);
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(BASE_URL)).header(H_NAME, H_VALUE).GET().build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(BASE_URL + "/signIn")).header(H_NAME, H_VALUE).POST(HttpRequest.BodyPublishers.ofString(jsonString)).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return response;
         } catch (JsonProcessingException e) {

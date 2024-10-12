@@ -4,6 +4,10 @@ public class SignInResponse {
 
     private Long id;
 
+    public SignInResponse(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
